@@ -1,0 +1,8 @@
+prefix=/home/nika/catkin_ws/install
+
+Name: mobot_gazebo
+Description: Description of mobot_gazebo
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/nika/catkin_ws/install/lib 
+Requires: 

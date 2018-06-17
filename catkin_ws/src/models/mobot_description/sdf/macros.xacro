@@ -1,0 +1,97 @@
+<?xml version='1.0'?>
+<model>
+  <macro name="cylinder_inertia" params="m r h">
+    <inertia>
+      <ixx>${m*(3*r*r+h*h)/12}</ixx>
+      <iyy>${m*(3*r*r+h*h)/12}</iyy>
+      <izz>${m*r*r/2}</izz>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyz>0</iyz>
+    </inertia>
+  </macro>
+
+  <macro name="box_inertia" params="m x y z">
+    <inertia>
+      <ixx>${m*(y*y+z*z)/12}</ixx>
+      <iyy>${m*(x*x+z*z)/12}</iyy>
+      <izz>${m*(x*x+y*y)/12}</izz>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyz>0</iyz>
+    </inertia>
+  </macro>
+
+  <macro name="sphere_inertia" params="m r">
+    <inertia>
+      <ixx>${2*m*r*r/5}</ixx>
+      <iyy>${2*m*r*r/5}</iyy>
+      <izz>${2*m*r*r/5}</izz>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyz>0</iyz>
+    </inertia>
+  </macro>
+
+  <macro name="wheel" params="lr tY">
+  <link name="${lr}_wheel">
+    <pose>${wheelPos} ${tY*wheelWidth/2+tY*chassisWidth/2} ${wheelRadius} 0 ${PI/2} ${PI/2}</pose>
+    <collision name="${lr}_wheel_collision">
+      <geometry>
+        <cylinder>
+          <radius>${wheelRadius}</radius>
+          <length>${wheelWidth}</length>
+        </cylinder>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1.0</mu>
+            <mu2>1.0</mu2>
+            <slip1>0.0</slip1>
+            <slip2>0.0</slip2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+
+    <visual name="${lr}_wheel_visual">
+      <geometry>
+        <cylinder>
+          <radius>${wheelRadius}</radius>
+          <length>${wheelWidth}</length>
+        </cylinder>
+      </geometry>
+      <material>
+        <script>
+          <name>Gazebo/Black</name>
+          <uri>__default__</uri>
+        </script>
+      </material>
+    </visual>
+
+    <inertial>
+      <mass>${wheelMass}</mass>
+      <cylinder_inertia m="${wheelMass}" r="${wheelRadius}" h="${wheelWidth}"/>
+    </inertial>
+  </link>
+
+  <joint name="${lr}_wheel_hinge" type="revolute">
+    <parent>chassis</parent>
+    <child>${lr}_wheel</child>
+    <pose>0 0 ${wheelWidth/2} 0 0 0</pose>
+    <axis>
+      <xyz>0 1 0</xyz>
+      <dynamics>
+        <damping>${wheelDamping}</damping>
+      </dynamics>
+      <limit>
+        <effort>100</effort>
+        <velocity>100</velocity>
+      </limit>
+    </axis>
+  </joint>
+
+</macro>
+
+</model>

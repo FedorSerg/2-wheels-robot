@@ -1,0 +1,8 @@
+prefix=/home/nika/catkin_ws/devel
+
+Name: mobot_description
+Description: Description of mobot_description
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/nika/catkin_ws/devel/lib 
+Requires: 
