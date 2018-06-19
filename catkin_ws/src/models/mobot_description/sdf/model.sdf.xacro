@@ -22,7 +22,7 @@
 
     <xacro:include filename="macros.xacro" />
 
-    <static>True</static>
+    <static>False</static>
 
     <link name='chassis'>
 
@@ -91,8 +91,8 @@ y="${chassisWidth}" z="${chassisHeight}"/>
       </visual>
     </link>
 
-    <wheel lr="left" tY="1"/>
-    <wheel lr="right" tY="-1"/>
+    <wheel lr="left" tY="-1"/>
+    <wheel lr="right" tY="1"/>
 
     <link name="camera_link">
       <pose>${chassisLength/2 - cameraSize/2} 0 ${wheelRadius + chassisHeight/2 + cameraSize/2} 0 0 0</pose>
@@ -162,8 +162,7 @@ y="${chassisWidth}" z="${chassisHeight}"/>
       </sensor>
     </link>
 
-    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-      <!--<legacyMode>false</legacyMode>-->
+   <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
       <alwaysOn>true</alwaysOn>
       <updateRate>100</updateRate>
       <leftJoint>left_wheel_hinge</leftJoint>
@@ -175,19 +174,8 @@ y="${chassisWidth}" z="${chassisHeight}"/>
       <odometryTopic>mobot/odom_diffdrive</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>chassis</robotBaseFrame>
+      <legacyMode>true</legacyMode>
     </plugin>
-    <!--<plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
-      <alwaysOn>true</alwaysOn>
-      <updateRate>20</updateRate>
-      <leftJoint>joint_left_wheel</leftJoint>
-      <rightJoint>joint_right_wheel</rightJoint>
-      <wheelSeparation>0.4</wheelSeparation>
-      <wheelDiameter>0.2</wheelDiameter>
-      <torque>0.1</torque>
-      <commandTopic>cmd_vel</commandTopic>
-      <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
-      <robotBaseFrame>link_chassis</robotBaseFrame>
-    </plugin>-->
+
   </model>
 </sdf>
